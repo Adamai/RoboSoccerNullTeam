@@ -136,6 +136,7 @@ public class CommandPlayer extends Thread {
 	}
 
 	private void acaoGoleiro(long nextIteration) {
+		PlayerState goleiroState = PlayerState.STANDBY;
 		double xInit = -48, yInit = 0, ballX = 0, ballY = 0;
 		EFieldSide side = selfPerc.getSide();
 		EFieldSide side2 = EFieldSide.invert(side);
@@ -173,6 +174,43 @@ public class CommandPlayer extends Thread {
 				ballX = fieldPerc.getBall().getPosition().getX();
 				ballY = fieldPerc.getBall().getPosition().getY();
 				
+				switch (goleiroState) {
+					case STANDBY:
+						if(halfSide.contains(ballX, ballY)) {		//PREPARAR PARA DEFENDER
+							goleiroState = PlayerState.DEFENSIVA;
+							break;
+						}
+						if(isPointsAreClose(selfPerc.getPosition(), initPos, 0.6)) {
+							dash(initPos);			//IR PARA POSICAO INICIAL
+						} else {
+							turnToPoint(ballPos);   // VIRAR PRA BOLA
+						}
+						
+					break;
+					case DEFENSIVA:
+						if(area.contains(ballX, ballY)) {		//PREPARAR PARA PEGAR A BOLA
+							goleiroState = PlayerState.PEGARBOLA;
+							break;
+						}
+						double Ygoal = ballY;
+						if(ballPos.getY() > 7) {		//ACOMPANHAR Y DA BOLA EM RELAÇÃO AO GOL
+							Ygoal = 6.8;
+						} else if(ballPos.getY() < -7) {
+							Ygoal = -6.8;
+						}
+						dash(new Vector2D(selfPerc.getPosition().getX(), Ygoal) );
+						if(isPointsAreClose(selfPerc.getPosition(), new Vector2D(selfPerc.getPosition().getX(), Ygoal), 0.1)) {
+							turnToPoint(ballPos);   // VIRAR PRA BOLA
+						}
+					break;
+					case PEGARBOLA:
+						
+					break;
+					case PASSAR:
+						
+					break;
+					
+				}
 				
 				if (isPointsAreClose(selfPerc.getPosition(), ballPos, 1)) {
 					commander.doCatchBlocking(0);
