@@ -1,0 +1,10 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=00529A01
+eax=0131B418 ebx=FFFFFFF0 ecx=01239C60 edx=00000000 esi=0028C8D8 edi=0052BC30
+ebp=0028C8E4 esp=0028C89C program=C:\Users\ROPI\Downloads\workspace EE\RoboSoccerProjeto\tools\rcssserver-14.0.3-win\rcssserver.exe, pid 7480, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0028C8E4  00529A01  (00000020, 00000020, 012F42B0, 0028C998)
+0028C9A4  0052BC99  (012F48A0, 012F48A0, 012F42B0, 0028C9E8)
+  63338 [main] rcssserver 7480 exception::handle: Exception: STATUS_ACCESS_VIOLATION
+  65087 [main] rcssserver 7480 exception::handle: Error while dumping state (probably corrupted stack)
