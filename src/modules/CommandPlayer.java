@@ -150,8 +150,10 @@ public class CommandPlayer extends Thread {
 		// USAR HALF SIDE PRA GOLEIRO SEGUIR Y DA BOLA
 		Rectangle area = side == EFieldSide.LEFT ? new Rectangle(-52, -20, 16, 40) : new Rectangle(36, -20, 16, 40);
 		while (true) {
+			System.out.println("Goleiro: " + goleiroState.toString());
 			updatePerceptions();
 			ballPos = fieldPerc.getBall().getPosition();
+			
 
 			switch (matchPerc.getState()) {
 			case BEFORE_KICK_OFF: // POSICIONA
@@ -228,7 +230,7 @@ public class CommandPlayer extends Thread {
 						break;
 					}
 					double Ygoal = ballY;
-					if (ballPos.getY() > 7) { // ACOMPANHAR Y DA BOLA EM RELAÇÃO AO GOL
+					if (ballPos.getY() > 7) { // ACOMPANHAR Y DA BOLA EM RELAï¾‡ï¾ƒO AO GOL
 						Ygoal = 3.4;
 					} else if (ballPos.getY() < -7) {
 						Ygoal = -3.4;
@@ -256,7 +258,7 @@ public class CommandPlayer extends Thread {
 						break;
 					}
 					commander.doCatchBlocking(0);
-					// 6 ta marcado? Se não, chuta pra ele
+					// 6 ta marcado? Se nç¸Š, chuta pra ele
 					for (int i = 1; i < 8; i++) { // verifica todos os jogadores do outro time
 						if (fieldPerc.getTeamPlayer(side2, i).getPosition()
 								.distanceTo(fieldPerc.getTeamPlayer(side, 6).getPosition()) < temp) {
@@ -318,6 +320,7 @@ public class CommandPlayer extends Thread {
 			halfSide = new Rectangle(26, -34, 26, 68);
 		}
 		while (true) {
+			System.out.println("Armador: "+armadorState.toString());
 			updatePerceptions();
 			ballPos = fieldPerc.getBall().getPosition();
 			switch (matchPerc.getState()) {
@@ -449,6 +452,10 @@ public class CommandPlayer extends Thread {
 
 					armadorState = PlayerState.DEFENSIVA;
 					break;
+					
+					default:
+					armadorState = PlayerState.DEFENSIVA;
+					break;
 				}
 
 //				
@@ -468,7 +475,7 @@ public class CommandPlayer extends Thread {
 //						// pega a bola
 //						dash(ballPos);
 //					}
-//					// se a bola está do outro lado do campo e na posse do time
+//					// se a bola estï¿½ do outro lado do campo e na posse do time
 //					else if (ballPos.getX() > 0 && (isPointsAreClose(pTemp.getPosition(), ballPos, 5))
 //							&& selfPerc.getSide() == EFieldSide.LEFT) {
 //						if (selfPerc.getUniformNumber() == 2) {
@@ -513,6 +520,7 @@ public class CommandPlayer extends Thread {
 		EFieldSide side2 = EFieldSide.invert(side);
 
 		while (true) {
+			System.out.println("Atacnte: "+atacanteState.toString());
 			updatePerceptions();
 			ballPos = fieldPerc.getBall().getPosition();
 			free:
@@ -570,7 +578,7 @@ public class CommandPlayer extends Thread {
 							turnToPoint(ballPos);
 						}
 					}
-				} else { // não é o time que vai chutar
+				} else { // nç¸Š ï¿½ o time que vai chutar
 					dash(initPos);
 					if (isPointsAreClose(selfPerc.getPosition(), initPos, 0))
 						turnToPoint(ballPos);
@@ -601,7 +609,7 @@ public class CommandPlayer extends Thread {
 							turnToPoint(ballPos);
 						}
 					}
-				} else { // não é o time que vai chutar
+				} else { // nç¸Š ï¿½ o time que vai chutar
 					dash(initPos);
 					if (isPointsAreClose(selfPerc.getPosition(), initPos, 0))
 						turnToPoint(ballPos);
@@ -666,23 +674,23 @@ public class CommandPlayer extends Thread {
 					if (MensageiroPlayer.getInstance().getMensagem().equals("Passando")) {
 						atacanteState = PlayerState.RECEBER;
 //						if (side == EFieldSide.LEFT)
-//							System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou receber");
+							System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou receber");
 					}
 				}
 				switch (atacanteState) {
 				case STANDBY:
 					if (pTemp == selfPerc) {
 						//if (side == EFieldSide.LEFT)
-						//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou atrás da bola");
+						//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou atrç–½ da bola");
 						atacanteState = PlayerState.PEGARBOLA;
 						break;
 					} else if (pTemp != selfPerc) {
-						if (pTemp.getUniformNumber() == 7) { // se n sou o jogador mais proximo e ele é o 7 (sou o 6)
+						if (pTemp.getUniformNumber() == 7) { // se n sou o jogador mais proximo e ele ï¿½ o 7 (sou o 6)
 							//if (side == EFieldSide.LEFT)
 							//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou ajudar o 7");
 							atacanteState = PlayerState.SUPORTE;
 							break;
-						} else if (pTemp.getUniformNumber() == 6) { // se n sou o jogador mais proximo e ele é o 6 (sou
+						} else if (pTemp.getUniformNumber() == 6) { // se n sou o jogador mais proximo e ele ï¿½ o 6 (sou
 																	// o 7)
 							//if (side == EFieldSide.LEFT)
 							//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou ajudar o 6");
@@ -711,28 +719,28 @@ public class CommandPlayer extends Thread {
 							atacanteState = PlayerState.CHUTARGOL;
 							break free;
 						} else if (selfPerc.getUniformNumber() == 6) { // verifica se 6 ta marcado se ele tiver com a bola
-//							if(side == EFieldSide.LEFT) {
-//								System.out.println("é pra driblar ou passar?");
-//							}
+							if(side == EFieldSide.LEFT) {
+								System.out.println("ï¿½ pra driblar ou passar?");
+						}
 							for (int i = 1; i < 8; i++) {
 								if (fieldPerc.getTeamPlayer(side2, i).getPosition()
-										.distanceTo(selfPerc.getPosition()) < marcDist) {// se entrar aqui é pq ta marcado
-//									if(side == EFieldSide.LEFT) {
-//										System.out.println("ta marcado");
-//									}
-									for (int j = 1; j < 8; j++) { // verificando se o 7 ta BLOQUEADO também
+										.distanceTo(selfPerc.getPosition()) < marcDist) {// se entrar aqui ï¿½ pq ta marcado
+									if(side == EFieldSide.LEFT) {
+										System.out.println("ta marcado");
+								}
+									for (int j = 1; j < 8; j++) { // verificando se o 7 ta BLOQUEADO també§‘
 										if (fieldPerc.getTeamPlayer(side2, j).getPosition().distanceTo(
 												fieldPerc.getTeamPlayer(side, 7).getPosition()) < blockDist) {
 											atacanteState = PlayerState.DRIBLAR; // tem alguem BLOQUEANDO o 7 (nao entra?)
-//											if(side == EFieldSide.LEFT) {
-//												System.out.println("driblando");
-//											}
+											if(side == EFieldSide.LEFT) {
+											System.out.println("driblando");
+											}
 											break free;
 										} else if (j == 7) {
 											atacanteState = PlayerState.PASSAR; // ngm marcando o 7 (nao entra?)
-//											if(side == EFieldSide.LEFT) {
-//												System.out.println("passando pro 7");
-//											}
+											if(side == EFieldSide.LEFT) {
+												System.out.println("passando pro 7");
+											}
 											break free;
 										}
 									}
@@ -744,28 +752,28 @@ public class CommandPlayer extends Thread {
 								}
 							}
 						} else { // se 7 ta marcado se ele tiver com a bola
-//							if(side == EFieldSide.LEFT) {
-//								System.out.println("é pra driblar ou passar 2?");
-//							}
+							if(side == EFieldSide.LEFT) {
+								System.out.println("ï¿½ pra driblar ou passar 2?");
+						}
 							for (int i = 1; i < 8; i++) {
 								if (fieldPerc.getTeamPlayer(side2, i).getPosition()
 										.distanceTo(selfPerc.getPosition()) < marcDist) {// ta marcado
-//									if(side == EFieldSide.LEFT) {
-//										System.out.println("ta marcado");
-//									}
+									if(side == EFieldSide.LEFT) {
+										System.out.println("ta marcado");
+									}
 									for (int j = 1; j < 8; j++) { // verificando se o 6 ta BLOQUEADO
 										if (fieldPerc.getTeamPlayer(side2, j).getPosition().distanceTo(
 												fieldPerc.getTeamPlayer(side, 6).getPosition()) < blockDist) {
-											atacanteState = PlayerState.DRIBLAR; // 6 ta BLOQUEADO (não entra?)
-//											if(side == EFieldSide.LEFT) {
-//												System.out.println("driblando");
-//											}
+											atacanteState = PlayerState.DRIBLAR; // 6 ta BLOQUEADO (nç¸Š entra?)
+											if(side == EFieldSide.LEFT) {
+												System.out.println("driblando");
+										}
 											break free;
 										} else if (i == 7) { // 6 nao ta BLOQUEADO (nao entra?)
 											atacanteState = PlayerState.PASSAR;
-//											if(side == EFieldSide.LEFT) {
-//												System.out.println("passando pro 6");
-//											}
+											if(side == EFieldSide.LEFT) {
+												System.out.println("passando pro 6");
+											}
 											break free;
 										}
 									}
@@ -780,10 +788,10 @@ public class CommandPlayer extends Thread {
 						
 					} else if (pTemp != selfPerc && pTemp.getUniformNumber() > 5 && pTemp.getUniformNumber() < 8) {
 //						if(EFieldSide.LEFT == selfPerc.getSide())
-//							System.out.println(Integer.toString(selfPerc.getUniformNumber())+": virando suporte. pTemp é "+pTemp.getUniformNumber());
+//							System.out.println(Integer.toString(selfPerc.getUniformNumber())+": virando suporte. pTemp ï¿½ "+pTemp.getUniformNumber());
 						atacanteState = PlayerState.SUPORTE;
 						break free;
-					} else if (matchPerc.getTime() > 11) {
+					} else if (matchPerc.getTime() > 5) {
 						dash(ballPos);
 					}
 
@@ -807,7 +815,7 @@ public class CommandPlayer extends Thread {
 																						// chegou em mim
 						atacanteState = PlayerState.OFENSIVA;
 						break;
-					} else { // não cheguei ainda. Vou para la
+					} else { // nç¸Š cheguei ainda. Vou para la
 						dash(posicao);
 					}
 
@@ -817,16 +825,16 @@ public class CommandPlayer extends Thread {
 						Vector2D posPassar = new Vector2D(fieldPerc.getTeamPlayer(side, 7).getPosition().getX() + 3,
 								fieldPerc.getTeamPlayer(side, 7).getPosition().getY());
 						MensageiroPlayer.getInstance().postMensagem("Passando", 7, posPassar.getX(), posPassar.getY());
-						kickToPoint(posPassar, 30);
-//						if (side == EFieldSide.LEFT)
-//							System.out.println("6 passando pro 7");
+						kickToPoint(posPassar, 50);
+						if (side == EFieldSide.LEFT)
+						System.out.println("6 passando pro 7");
 					} else if (selfPerc.getUniformNumber() == 7) {
 						Vector2D posPassar = new Vector2D(fieldPerc.getTeamPlayer(side, 6).getPosition().getX() + 3,
 								fieldPerc.getTeamPlayer(side, 6).getPosition().getY());
 						MensageiroPlayer.getInstance().postMensagem("Passando", 6, posPassar.getX(), posPassar.getY());
-						kickToPoint(posPassar, 30);
-//						if (side == EFieldSide.LEFT)
-//							System.out.println("7 passando pro 6");
+						kickToPoint(posPassar, 50);
+						if (side == EFieldSide.LEFT)
+							System.out.println("7 passando pro 6");
 					}
 					atacanteState = PlayerState.SUPORTE;
 					break;
@@ -836,14 +844,15 @@ public class CommandPlayer extends Thread {
 					atacanteState = PlayerState.STANDBY;
 					break;
 				case DRIBLAR:
+					System.out.println("CUCARAAAAAAAAAAAAAAAACHA");
 					for (int i = 1; i < 8; i++) {
 						if (isPointsAreClose(fieldPerc.getTeamPlayer(side2, i).getPosition(), selfPerc.getPosition(),
 								marcDist)) {
 							if (fieldPerc.getTeamPlayer(side2, i).getPosition().getY() > selfPerc.getPosition()
 									.getY()) { // se ele vem de baixo
-								kickToPoint(new Vector2D(goalPos.getX(), selfPerc.getPosition().getY() - 9), 18);
+								kickToPoint(new Vector2D(goalPos.getX(), selfPerc.getPosition().getY() - 15), 30);
 							} else { // se ele vem de cima
-								kickToPoint(new Vector2D(goalPos.getX(), selfPerc.getPosition().getY() + 9), 18);
+								kickToPoint(new Vector2D(goalPos.getX(), selfPerc.getPosition().getY() + 15), 30);
 							}
 						}
 					}
@@ -862,8 +871,12 @@ public class CommandPlayer extends Thread {
 								fieldPerc.getTeamPlayer(side, 6).getPosition().getX() - 10));
 					}
 					break;
+				default:
+				atacanteState = PlayerState.OFENSIVA;	
+				break;
 				}
 				break;
+			
 
 			/* Todos os estados da partida */
 

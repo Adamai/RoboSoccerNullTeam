@@ -13,11 +13,11 @@ public class Main {
 	public static void main(String [] args) throws UnknownHostException{
 			//AbstractTeam a = new AbstractTeam("timeB", 7, "nao ligo", 69, true);
 			CommandTeam timeA = new CommandTeam("A");
-			CommandTeam timeB = new CommandTeam("B");
+			//CommandTeam timeB = new CommandTeam("B");
 			timeA.launchTeamAndServer();
 			//timeA.launchTeam();
 			
-			timeB.launchTeam();
+			//timeB.launchTeam();
 			
 	}
 }
