@@ -12,6 +12,15 @@ public class MensageiroPlayer {
 	private int destino = 99;
 	private double posX = 0;
 	private double posY = 0;
+	private boolean existeSup = false;
+	
+	public boolean isExisteSup() {
+		return existeSup;
+	}
+
+	public void setExisteSup(boolean existeSup) {
+		this.existeSup = existeSup;
+	}
 	
 	public static MensageiroPlayer getInstance() {
 		if(mensageiro == null) {

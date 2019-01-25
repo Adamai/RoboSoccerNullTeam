@@ -685,12 +685,12 @@ public class CommandPlayer extends Thread {
 						atacanteState = PlayerState.PEGARBOLA;
 						break;
 					} else if (pTemp != selfPerc) {
-						if (pTemp.getUniformNumber() == 7) { // se n sou o jogador mais proximo e ele � o 7 (sou o 6)
+						if (!MensageiroPlayer.getInstance().isExisteSup() && pTemp.getUniformNumber() == 7) { // se n sou o jogador mais proximo e ele � o 7 (sou o 6)
 							//if (side == EFieldSide.LEFT)
 							//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou ajudar o 7");
 							atacanteState = PlayerState.SUPORTE;
 							break;
-						} else if (pTemp.getUniformNumber() == 6) { // se n sou o jogador mais proximo e ele � o 6 (sou
+						} else if (!MensageiroPlayer.getInstance().isExisteSup() && pTemp.getUniformNumber() == 6) { // se n sou o jogador mais proximo e ele � o 6 (sou
 																	// o 7)
 							//if (side == EFieldSide.LEFT)
 							//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou ajudar o 6");
@@ -786,12 +786,12 @@ public class CommandPlayer extends Thread {
 							}
 						}
 						
-					} else if (pTemp != selfPerc && pTemp.getUniformNumber() > 5 && pTemp.getUniformNumber() < 8) {
+					} else if (!MensageiroPlayer.getInstance().isExisteSup() && pTemp != selfPerc && pTemp.getUniformNumber() > 5 && pTemp.getUniformNumber() < 8) {
 //						if(EFieldSide.LEFT == selfPerc.getSide())
 //							System.out.println(Integer.toString(selfPerc.getUniformNumber())+": virando suporte. pTemp � "+pTemp.getUniformNumber());
 						atacanteState = PlayerState.SUPORTE;
 						break free;
-					} else if (matchPerc.getTime() > 5) {
+					} else if (matchPerc.getTime() > 4) {
 						dash(ballPos);
 					}
 
@@ -836,7 +836,9 @@ public class CommandPlayer extends Thread {
 						if (side == EFieldSide.LEFT)
 							System.out.println("7 passando pro 6");
 					}
-					atacanteState = PlayerState.SUPORTE;
+
+						atacanteState = PlayerState.SUPORTE;
+					
 					break;
 				case CHUTARGOL:
 					// chuta para o gol
@@ -859,18 +861,25 @@ public class CommandPlayer extends Thread {
 					atacanteState = PlayerState.OFENSIVA;
 					break;
 				case SUPORTE:
-					if ((pTemp == null || pTemp == selfPerc) && matchPerc.getTime() > 20) {
-						atacanteState = PlayerState.OFENSIVA;
+					if(MensageiroPlayer.getInstance().isExisteSup()) {
+						atacanteState = PlayerState.PEGARBOLA;
 						break;
 					}
-					if (selfPerc.getUniformNumber() == 6) {
-						dash(new Vector2D(fieldPerc.getTeamPlayer(side, 7).getPosition().getX(),
-								fieldPerc.getTeamPlayer(side, 7).getPosition().getY() + 10));
-					} else {
-						dash(new Vector2D(fieldPerc.getTeamPlayer(side, 6).getPosition().getX(),
-								fieldPerc.getTeamPlayer(side, 6).getPosition().getX() - 10));
+					else {
+						if ((pTemp == null || pTemp == selfPerc) && matchPerc.getTime() > 20) {
+							atacanteState = PlayerState.OFENSIVA;
+							break;
+						}
+						if (selfPerc.getUniformNumber() == 6) {
+							dash(new Vector2D(fieldPerc.getTeamPlayer(side, 7).getPosition().getX(),
+									fieldPerc.getTeamPlayer(side, 7).getPosition().getY() + 10));
+						} else {
+							dash(new Vector2D(fieldPerc.getTeamPlayer(side, 6).getPosition().getX(),
+									fieldPerc.getTeamPlayer(side, 6).getPosition().getX() - 10));
+						}
+						break;
 					}
-					break;
+					
 				default:
 				atacanteState = PlayerState.OFENSIVA;	
 				break;
