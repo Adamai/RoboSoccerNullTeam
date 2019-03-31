@@ -423,9 +423,9 @@ public class CommandPlayer extends Thread {
 					dash(ballPos);
 					break;
 				case PASSAR:
-					if (selfPerc.getUniformNumber() == 7) {
+					if (selfPerc.getUniformNumber() == 2) {
 						// toca para o jogador 7
-						vTemp = fieldPerc.getTeamPlayer(side, 3).getPosition();
+						vTemp = fieldPerc.getTeamPlayer(side, 7).getPosition();
 					} else if (selfPerc.getUniformNumber() == 3) {
 						// toca para o jogador 7
 						vTemp = fieldPerc.getTeamPlayer(side, 7).getPosition();
@@ -442,12 +442,10 @@ public class CommandPlayer extends Thread {
 
 					double intensity;
 					// CONCERTAR ISSO AQ ?
-					if (isPointsAreClose(selfPerc.getPosition(), vTemp, 30)) {
-						Vector2D vTempF = vTemp.sub(selfPerc.getPosition());
-						intensity = (vTempF.magnitude() * 100) / 40;
-					} else {
-						intensity = 5;
-					}
+					
+					Vector2D vTempF = vTemp.sub(selfPerc.getPosition());
+					intensity = (vTempF.magnitude() * 100) / 40;
+					
 					kickToPoint(vTemp, intensity);
 
 					armadorState = PlayerState.DEFENSIVA;
@@ -696,6 +694,8 @@ public class CommandPlayer extends Thread {
 							//	System.out.println(Integer.toString(selfPerc.getUniformNumber()) + ": vou ajudar o 6");
 							atacanteState = PlayerState.SUPORTE;
 							break;
+						} else {
+							dash(ballPos);
 						}
 					}
 					if(!(pTemp.getUniformNumber() > 0 && pTemp.getUniformNumber() < 6)) {
